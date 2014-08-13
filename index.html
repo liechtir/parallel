@@ -26,11 +26,17 @@
 				var centerHeight = $(window).height()- top*2;
 				var centerWidth = $(window).width() - left*2;
 				
-                $('#openerDiv').css({width: centerWidth, height:centerHeight, position:'absolute', margin:0, top: (top > 0 ? top : 0)+'px', left: (left > 0 ? left : 0)+'px'});
+                $('#openerDiv').css({width: centerWidth, 
+                					height:centerHeight, 
+                					position:'absolute', 
+                					margin:0, 
+                					top: (top > 0 ? top : 0)+'px', 
+                					left: (left > 0 ? left : 0)+'px'
+                					});
 			});
 			
 			function openerEndedHandler(){
-				$('#opener').css({display:none});
+				$('#opener').css({display:none}); // handler called but css not applied??
 			}
 		</script>
 		
