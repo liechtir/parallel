@@ -21,34 +21,93 @@
 		
 		<script type="text/javascript">
 			$(document).ready(function () {
-                var left = $(window).width()/12.8;
+                box('#openerDiv');
+                //document.getElementById('opener').play();
+                preload([
+				    'resources/media/wallee1.jpg',
+				    'resources/media/wallee2.jpg',
+				    'resources/media/wallee3.jpg',
+				    'resources/media/wallee4.jpg',
+				    'resources/media/wallee5.jpg'
+				]);
+				openerEndedHandler();
+			});
+			
+			function box(div){
+				var left = $(window).width()/12.8;
                 var top = $(window).height()/20;
 				var centerHeight = $(window).height()- top*2;
 				var centerWidth = $(window).width() - left*2;
 				
-                $('#openerDiv').css({width: centerWidth, 
+                $(div).css({width: centerWidth, 
                 					height:centerHeight, 
                 					position:'absolute', 
                 					margin:0, 
                 					top: (top > 0 ? top : 0)+'px', 
                 					left: (left > 0 ? left : 0)+'px'
                 					});
-			});
+			}
+			
+			function maximize(div){
+				var centerHeight = $(window).height();
+				var centerWidth = $(window).width();
+				
+                $(div).css({width: centerWidth, 
+                					height:centerHeight, 
+                					position:'absolute', 
+                					margin:0
+                					});
+			}
 			
 			function openerEndedHandler(){
-				$('#opener').css({display:none}); // handler called but css not applied??
+				$('#openerDiv').fadeOut();
+				maximize('#wallee');
+				box('#box');
+				changeWallee(1,true);
+				$('#wallee').fadeIn(1200);
+				setTimeout(function() {
+					$('#box').fadeIn(1200);
+				}, 250);
+			}
+			
+			function changeWallee(index, immediate){
+				if(index==6){
+					index = 1;
+				}
+				if(immediate){
+					$('#wallee').css({"background-image":"url(resources/media/wallee"+index+".jpg)"});
+				}else{
+					$('#wallee').fadeTo('slow', 0.3, function(){
+						$('#wallee').css({"background-image":"url(resources/media/wallee"+index+".jpg)"});
+					}).fadeTo('slow', 1);
+				}
+				
+				setTimeout(function() {   //calls click event after a certain time
+				   changeWallee(index+1,false);
+				}, 30000);
+			}
+			
+			function preload(arrayOfImages) {
+			    $(arrayOfImages).each(function(){
+			        $('<img/>')[0].src = this;
+			    });
 			}
 		</script>
 		
 	</head>
 
 	<body>
+		<div id="wallee" style="display:none"></div>
+		<div id="box">
+			<span id="quote">take nothing but pictures leave nothing but footprints</span>
+		</div>
 		<div id="openerDiv">
-			<video id="opener" width="100%" height="100%" preload autoplay onended="openerEndedHandler()">
-				<source src="resources/media/opener_1080.mp4.mp4" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"' />
-				<source src="resources/media/opener_1080.oggtheora.ogv" type='video/ogg; codecs="theora, vorbis"' />
-				<source src="resources/media/opener_1080.webmhd.webm" type='video/webm; codecs="vp8, vorbis"' />
+			<video id="opener" width="100%" height="100%" preload onended="openerEndedHandler()">
+				<source src="resources/media/opener_1080.mp4.mp4" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'></source>
+				<source src="resources/media/opener_1080.oggtheora.ogv" type='video/ogg; codecs="theora, vorbis"' ></source>
+				<source src="resources/media/opener_1080.webmhd.webm" type='video/webm; codecs="vp8, vorbis"' ></source>
 			</video>
 		</div>
+			
 	</body>
 </html>
