@@ -2,22 +2,22 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-
-		<!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame
-		Remove this if you use the .htaccess -->
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-
 		<title>parallel pictures</title>
 		<meta name="description" content="">
 		<meta name="author" content="Remo Liechti">
 
-		<meta name="viewport" content="width=device-width; initial-scale=1.0">
-
-		<!-- Replace favicon.ico & apple-touch-icon.png in the root of your domain and delete these references -->
 		<link rel="shortcut icon" href="/favicon.ico">
 		<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 		<link rel="stylesheet" type="text/css" href="resources/styles/main.css">
+		<link rel="stylesheet" type="text/css" href="resources/styles/map.css">
+		
+		<script type="text/javascript" src="resources/scripts/main.js"></script>
+		
 		<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+		<script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
+		<script type="text/javascript" src="http://d3js.org/topojson.v1.min.js"></script>
+		<script type="text/javascript" src="resources/scripts/notify.min.js"></script>
 		
 		<script type="text/javascript">
 			$(document).ready(function () {
@@ -33,72 +33,21 @@
 				openerEndedHandler();
 			});
 			
-			function box(div){
-				var left = $(window).width()/12.8;
-                var top = $(window).height()/20;
-				var centerHeight = $(window).height()- top*2;
-				var centerWidth = $(window).width() - left*2;
-				
-                $(div).css({width: centerWidth, 
-                					height:centerHeight, 
-                					position:'absolute', 
-                					margin:0, 
-                					top: (top > 0 ? top : 0)+'px', 
-                					left: (left > 0 ? left : 0)+'px'
-                					});
-			}
-			
-			function maximize(div){
-				var centerHeight = $(window).height();
-				var centerWidth = $(window).width();
-				
-                $(div).css({width: centerWidth, 
-                					height:centerHeight, 
-                					position:'absolute', 
-                					margin:0
-                					});
-			}
-			
-			function openerEndedHandler(){
-				$('#openerDiv').fadeOut();
+			$(window).resize(function() {
 				maximize('#wallee');
 				box('#box');
-				changeWallee(1,true);
-				$('#wallee').fadeIn(1200);
-				setTimeout(function() {
-					$('#box').fadeIn(1200);
-				}, 250);
-			}
-			
-			function changeWallee(index, immediate){
-				if(index==6){
-					index = 1;
-				}
-				if(immediate){
-					$('#wallee').css({"background-image":"url(resources/media/wallee"+index+".jpg)"});
-				}else{
-					$('#wallee').fadeTo('slow', 0.3, function(){
-						$('#wallee').css({"background-image":"url(resources/media/wallee"+index+".jpg)"});
-					}).fadeTo('slow', 1);
-				}
-				
-				setTimeout(function() {   //calls click event after a certain time
-				   changeWallee(index+1,false);
-				}, 30000);
-			}
-			
-			function preload(arrayOfImages) {
-			    $(arrayOfImages).each(function(){
-			        $('<img/>')[0].src = this;
-			    });
-			}
+				$('#wallee').fadeIn(0);
+				$('#box').fadeIn(0);
+				initMap();
+			});
 		</script>
-		
 	</head>
 
 	<body>
 		<div id="wallee" style="display:none"></div>
 		<div id="box">
+			<div id="container" style="width:100%;height:80%; margin: 0px; padding: 0px;margin-top:80px;"></div>
+			<script type="text/javascript" src="resources/d3map/js/map.js"></script>
 			<span id="quote">take nothing but pictures leave nothing but footprints</span>
 		</div>
 		<div id="openerDiv">
