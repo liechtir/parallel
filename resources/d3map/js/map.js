@@ -25,6 +25,19 @@ function initMap(){
 
   g = svg.append("g");
   draw(topo);
+  jQuery(function($){
+	    $('path').click(function(){
+	        $('#Iceland').hide();
+	        $('#UnitedStates').hide();
+	        $('#France').hide();
+	        
+	        var clickedCountry = this.getAttribute("title");
+	        clickedCountry = clickedCountry.replace(/\s+/g, '');
+	        //alert(clickedCountry);
+	        $("#"+clickedCountry).fadeIn(750);
+	        
+	    });
+  });
 }
 
 d3.json("resources/d3map/data/world-topo-min.json", function(error, world) {
@@ -78,7 +91,7 @@ function draw(topo) {
   d3.csv("resources/d3map/data/country-capitals.csv", function(err, capitals) {
 
     capitals.forEach(function(i){
-      addpoint(i.CapitalLongitude, i.CapitalLatitude, i.CapitalName );
+      // doesnt work properly yet addpoint(i.CapitalLongitude, i.CapitalLatitude, i.CapitalName );
     });
 
   });
@@ -95,7 +108,6 @@ function redraw() {
 
 
 function move() {
-
   var t = d3.event.translate;
   var s = d3.event.scale; 
   zscale = s;
@@ -117,7 +129,6 @@ function move() {
 
   //adjust the country hover stroke width based on zoom level
   d3.selectAll(".country").style("stroke-width", 1 / s);
-
 }
 
 
@@ -144,6 +155,9 @@ function addpoint(lat,lon,text) {
   var gpoint = g.append("g").attr("class", "gpoint");
   var x = projection([lat,lon])[0];
   var y = projection([lat,lon])[1];
+  if(isNaN(x) || isNaN(y)){
+  	return;
+  }
 
   gpoint.append("svg:circle")
         .attr("cx", x)

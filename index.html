@@ -22,7 +22,7 @@
 		<script type="text/javascript">
 			$(document).ready(function () {
                 box('#openerDiv');
-                //document.getElementById('opener').play();
+                document.getElementById('opener').play();
                 preload([
 				    'resources/media/wallee1.jpg',
 				    'resources/media/wallee2.jpg',
@@ -30,7 +30,7 @@
 				    'resources/media/wallee4.jpg',
 				    'resources/media/wallee5.jpg'
 				]);
-				openerEndedHandler();
+				//openerEndedHandler();
 			});
 			
 			$(window).resize(function() {
@@ -46,8 +46,22 @@
 	<body>
 		<div id="wallee" style="display:none"></div>
 		<div id="box">
-			<div id="container" style="width:100%;height:80%; margin: 0px; padding: 0px;margin-top:80px;"></div>
+			<div id="container" style="width:100%;height:80%; margin: 0px; padding: 0px"></div>
 			<script type="text/javascript" src="resources/d3map/js/map.js"></script>
+			<div id="countryDescription" style="width: 100%; height: 15%; margin-top: 5px; padding-left: 20px; padding-right: 20px;">
+				<div id="Iceland" style="display: none;">
+					<h1>Island</h1>
+					Blubber blabber
+				</div>
+				<div id="UnitedStates" style="display: none;">
+					<h1>USA</h1>
+					Blubber glibber
+				</div>
+				<div id="France" style="display: none;">
+					<h1>Frankreich</h1>
+					Blubber glibber
+				</div>
+			</div>
 			<span id="quote">take nothing but pictures leave nothing but footprints</span>
 		</div>
 		<div id="openerDiv">
