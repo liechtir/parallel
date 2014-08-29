@@ -26,17 +26,6 @@ function initMap(){
 
   g = svg.append("g");
   draw(topo);
-  jQuery(function($){
-	    $('path').click(function(){
-	        $('#Iceland').hide();
-	        $('#UnitedStates').hide();
-	        $('#France').hide();
-	        
-	        var clickedCountry = this.getAttribute("title");
-	        clickedCountry = clickedCountry.replace(/\s+/g, '');
-	        $("#"+clickedCountry).fadeIn(750);
-	    });
-  });
 }
 
 d3.json("resources/d3map/data/world-topo-no-antarctica-min.json", function(error, world) {
@@ -50,13 +39,6 @@ function draw(topo) {
      .attr("class", "graticule")
      .attr("d", path);
 
-
-  g.append("path")
-   .datum({type: "LineString", coordinates: [[-180, 0], [-90, 0], [0, 0], [90, 0], [180, 0]]})
-   .attr("class", "equator")
-   .attr("d", path);
-
-
   var country = g.selectAll(".country").data(topo);
 
   country.enter().insert("path")
@@ -64,8 +46,9 @@ function draw(topo) {
       .attr("d", path)
       .attr("id", function(d,i) { return d.id; })
       .attr("title", function(d,i) { return d.properties.name; })
-      .style("fill", function(d, i) { return d.properties.color; });
-
+      .style("fill", function(d, i) { return d.properties.color; })
+      .on("click", clickedPath);
+      
   //offsets for tooltips
   var offsetL = document.getElementById('container').offsetLeft+20;
   var offsetT = document.getElementById('container').offsetTop+10;
@@ -176,20 +159,48 @@ function addpoint(lat,lon,text) {
 
 }
 
-function isolateCountry(id){
-	$('path').not(document.getElementById(id)).fadeOut(750);
-	var scale,translate;
-	var a = path.bounds(document.getElementById(id));
-	var bounds = a,
+function clickedPath(d) {
+  var bounds = path.bounds(d),
       dx = bounds[1][0] - bounds[0][0],
       dy = bounds[1][1] - bounds[0][1],
       x = (bounds[0][0] + bounds[1][0]) / 2,
       y = (bounds[0][1] + bounds[1][1]) / 2,
-      scale = .9 / Math.max(dx / width, dy / height),
+      scale = .8 / Math.max(dx / width, dy / height),
       translate = [width / 2 - scale * x, height / 2 - scale * y];
 
   svg.transition()
-      .duration(750)
+      .duration(1250)
       .call(zoom.translate(translate).scale(scale).event);
+      
+  	$('#Iceland').hide();
+	$('#UnitedStates').hide();
+	$('#France').hide();
+	
+	var clickedCountry = this.getAttribute("title");
+	clickedCountry = clickedCountry.replace(/\s+/g, '');
+	$("#"+clickedCountry).fadeIn(750);
+	
+	setTimeout(function() {
+		$("#backToWorld").fadeIn(750);
+		$('path').not(document.getElementById(d.id)).fadeOut(750);
+	}, 750);
 }
+
+function showWorld(){
+	setTimeout(function() {
+		$("#backToWorld").fadeOut(750);
+	}, 750);
+	setTimeout(function() {
+		$('path').fadeIn(750);
+	}, 450);
+	
+	svg.transition()
+      .duration(750)
+      .call(zoom.translate([0, 0]).scale(1).event);
+    
+    $('#Iceland').fadeOut(750);
+	$('#UnitedStates').fadeOut(750);
+	$('#France').fadeOut(750);
+}
+
 

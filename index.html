@@ -21,8 +21,8 @@
 		
 		<script type="text/javascript">
 			$(document).ready(function () {
-                //box('#openerDiv');
-                //document.getElementById('opener').play();
+                box('#openerDiv');
+                document.getElementById('opener').play();
                 preload([
 				    'resources/media/wallee1.jpg',
 				    'resources/media/wallee2.jpg',
@@ -30,7 +30,7 @@
 				    'resources/media/wallee4.jpg',
 				    'resources/media/wallee5.jpg'
 				]);
-				openerEndedHandler();
+				//openerEndedHandler();
 			});
 			
 			$(window).resize(function() {
@@ -46,6 +46,7 @@
 	<body>
 		<div id="wallee" style="display:none"></div>
 		<div id="box">
+			<div id="backToWorld" style="display:none; position: absolute;top:10px;left:10px;z-index: 10;"><span style="font-size: 25px;" onclick="showWorld();">Zurück</span></h3></div>
 			<div id="container" style="width:100%;height:80%; margin: 0px; padding: 0px"></div>
 			<script type="text/javascript" src="resources/d3map/js/map.js"></script>
 			<div id="countryDescription" style="width: 100%; height: 15%; margin-top: 5px; padding-left: 20px; padding-right: 20px;">
@@ -60,16 +61,16 @@
 								<span class="details">Zwei Wochen reif für die Insel.<br />Tour mitten im Herzen von Vulkanismus, Einöde und Lebensfreude.<br />Mit 65min Dokumentarfilm und tollen Bildern.</span>
 							</td>
 							<td>
-								<img src="resources/media/iceland/theme1.jpg" class="themeImage" onclick="isolateCountry(106);"/>
+								<img src="resources/media/iceland/theme1.jpg" class="themeImage"/>
 							</td>	
 							<td>
-								<img src="resources/media/iceland/theme2.jpg"  class="themeImage" onclick="isolateCountry(106);"/>
+								<img src="resources/media/iceland/theme2.jpg"  class="themeImage"/>
 							</td>	
 							<td>
-								<img src="resources/media/iceland/theme3.jpg"  class="themeImage" onclick="isolateCountry(106);"/>
+								<img src="resources/media/iceland/theme3.jpg"  class="themeImage"/>
 							</td>	
 							<td>
-								<img src="resources/media/iceland/theme4.jpg"  class="themeImage" onclick="isolateCountry(106);"/>
+								<img src="resources/media/iceland/theme4.jpg"  class="themeImage"/>
 							</td>						
 						</tr>
 					</table>
