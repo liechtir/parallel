@@ -1,4 +1,4 @@
-		var width,height;
+var width,height;
 var topo,projection,path,svg,g,graticule,tooltip,zoom;
 
 
@@ -12,13 +12,14 @@ function initMap(){
 	graticule = d3.geo.graticule();
 	tooltip = d3.select("#container").append("div").attr("class", "tooltip hidden");
   	projection = d3.geo.mercator()
-	    .translate([(width/2), (height/2)])
+	    .translate([(width/2), (height/1.5)])
 	    .scale( width / 2 / Math.PI);
   	path = d3.geo.path().projection(projection);
 
   svg = d3.select("#container").append("svg")
       .attr("width", width)
       .attr("height", height)
+      .attr("id", "map")
       .call(zoom)
       .on("click", click)
       .append("g");
@@ -33,14 +34,12 @@ function initMap(){
 	        
 	        var clickedCountry = this.getAttribute("title");
 	        clickedCountry = clickedCountry.replace(/\s+/g, '');
-	        //alert(clickedCountry);
 	        $("#"+clickedCountry).fadeIn(750);
-	        
 	    });
   });
 }
 
-d3.json("resources/d3map/data/world-topo-min.json", function(error, world) {
+d3.json("resources/d3map/data/world-topo-no-antarctica-min.json", function(error, world) {
   var countries = topojson.feature(world, world.objects.countries).features;
   topo = countries;
 });
@@ -175,5 +174,22 @@ function addpoint(lat,lon,text) {
           .text(text);
   }
 
+}
+
+function isolateCountry(id){
+	$('path').not(document.getElementById(id)).fadeOut(750);
+	var scale,translate;
+	var a = path.bounds(document.getElementById(id));
+	var bounds = a,
+      dx = bounds[1][0] - bounds[0][0],
+      dy = bounds[1][1] - bounds[0][1],
+      x = (bounds[0][0] + bounds[1][0]) / 2,
+      y = (bounds[0][1] + bounds[1][1]) / 2,
+      scale = .9 / Math.max(dx / width, dy / height),
+      translate = [width / 2 - scale * x, height / 2 - scale * y];
+
+  svg.transition()
+      .duration(750)
+      .call(zoom.translate(translate).scale(scale).event);
 }
 

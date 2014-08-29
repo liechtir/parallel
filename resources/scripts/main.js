@@ -35,9 +35,9 @@ function openerEndedHandler(){
 		$('#box').fadeIn(1200);
 		initMap();
 		setTimeout(function() {
-			$("#container").notify("Karte mit Mausrad zoomen und bewegen.",{  style: 'notice',className:"info",position:"top center",autoHide: true,autoHideDelay: 4000,arrowSize: 12 });
+			$("#container").notify("Karte mit Mausrad zoomen und bewegen.",{  style: 'notice',className:"info",position:"bottom center",autoHide: true,autoHideDelay: 4000,arrowSize: 12 });
 			setTimeout(function() {
-				$("#container").notify("Auf ein farbiges Land klicken um mehr Informationen zu erhalten.",{  style: 'notice',className:"info",position:"top center",autoHide: true,autoHideDelay: 10000,arrowSize: 12 });
+				$("#container").notify("Auf ein farbiges Land klicken um mehr Informationen zu erhalten.",{  style: 'notice',className:"info",position:"bottom center",autoHide: true,autoHideDelay: 10000,arrowSize: 12 });
 			}, 4300);
 		}, 250);
 	}, 250);
